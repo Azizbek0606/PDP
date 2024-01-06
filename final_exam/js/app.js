@@ -36,3 +36,13 @@ function create_party(){
     elem_p.textContent = "Your party has been created"
     document.body.append(elem_p)
 }
+
+let band_card = document.querySelectorAll('.band_card');
+for (let i = 0; i < band_card.length; i++) {
+    band_card[i].addEventListener('mouseover' , ()=>{
+        for (let k = 0; k < band_card.length; k++) {
+            band_card[k].classList.remove("active_band_card");
+        }
+        band_card[i].classList.add("active_band_card");
+    })
+}

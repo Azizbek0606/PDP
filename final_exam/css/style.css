@@ -184,7 +184,8 @@ button{
     width: 100%;
     height: 50px;
     border-radius: 5px;
-    background-color: #29384ec0;
+    background-color: #13212350;
+    backdrop-filter: blur(15px);
     border: none;
     outline: none;
     color: #fff;
@@ -866,7 +867,8 @@ textarea{
         padding: 10px;
     }
     .band_card{
-        height: 25%;
+        width: 100%;
+        height: 90px;
     }
     .active_band_card{
         width: 100%;

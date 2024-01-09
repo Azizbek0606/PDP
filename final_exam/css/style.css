@@ -1,8 +1,12 @@
+@font-face {
+    font-family: "roboto";
+    src: url(../fonts/RobotoMono-Regular.ttf);
+}
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "roboto mono";
+    font-family: "roboto";
     list-style: none;
     text-decoration: none;
 }

@@ -1,0 +1,5 @@
+branch=[![Netlify Status](https://api.netlify.com/api/v1/badges/3c225af9-0e00-49e4-9119-bd47a84e8368/deploy-status)](https://app.netlify.com/sites/fabulous-lokum-c390c3/deploys)
+[build]
+  base = "./template"
+  publish = "dist"
+  command = "npm run build"

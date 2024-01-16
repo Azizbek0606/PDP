@@ -1,7 +1,7 @@
 participant_arr = []
 participant_ball_arr = []
 participant_team_members = []
-
+stage = ["Listening" , "reading" , "speaking" , "writing" , ""]
 
 def get_positive_input(inner_text):
     while True:

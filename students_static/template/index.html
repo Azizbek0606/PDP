@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="students_block">
+        <h1 style="font-weight: 200;">students</h1>
+        {% for i in all_std %}
+        <div class="block" name="{{ i.payment }}">
+            <div class="img_box">
+                <img src="{{ i.img.url }}" width="100%" height="100%" alt="">
+            </div>
+            <p>
+                <a href="{% url 'main_app:full_std_about' i.id %}" id="name_bg" style="text-decoration: none;">
+                    <span style="color: #08974f;">NAME: </span>{{ i.student_name }}
+                </a>
+            </p>
+            <p>
+                <span style="color: #08974f;">AGE: </span>{{ i.age }}
+            </p>
+            <p>
+                <span style="color: #08974f;">PAYMENT: </span>{% if i.payment %}
+                <i class="fa-solid fa-check" style="color: white;"></i>
+                {% else %}
+                <i class="fa-sharp fa-solid fa-xmark" style="color: white;"></i>
+                {% endif %}
+            </p>
+            <p id="change_bg">
+                {{ i.lavel }}
+            </p>
+            <div class="d_flex">
+                <form action="{% url 'main_app:del_std' i.id %}" method="post">
+                    <button type="submit" class="del_btn">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                    {% csrf_token %}
+                </form>
+                <form action="{% url 'main_app:update' i.id %}" method="post">
+                    <button type="submit" class="del_btn" style="border:3px solid #08974f !important;">
+                        <i class="fa-solid fa-pen-to-square" style="color: #08974f !important;"></i>
+                    </button>
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block context %}
+<main class="mt">
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+    <div class="container">
+        <div class="std_card_df">
+            <div class="std_img_box" name="{{ all_std.payment }}">
+                <img src="{{ all_std.img.url }}" style="width: 150px; height: 150px; border-radius: 20px;" alt="">
+                <p class="first_p"><span>{{ all_std.slug_name }} </span><span> {{ all_std.age }}</span></p>
+                <p class="second_p"><span id="change_bg">{{ all_std.lavel }}</span><span> {{ all_std.gander }}</span>
+                </p>
+                <p>
+                    {% with ''|center:all_std.rating as range %}
+                    {% for _ in range %}
+                    <i class="fa-solid fa-star"></i>
+                    {% endfor %}
+                    {% endwith %}
+                </p>
+            </div>
+            <div class="std_content_box">
+                <div class="glass_effect" name="{{ all_std.payment }}">
+                    <h3 style="font-weight: 200;">
+                        <span class="coment_color">{{ all_std.slug_name }}</span>'s information
+                    </h3>
+                    <div class="df-box" style="font-weight: 200;">
+                        <div>
+                            <i class="fa-solid fa-calendar"></i>
+                            :
+                            {{ all_std.data_time|date:'Y:M:d'}}
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-clock"></i>
+                            :
+                            {{ all_std.data_time|date:'H:m'}}
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-money-bills"></i>
+                            : {% if all_std.payment %}
+                            <i class="fa-solid fa-check" style="color: white;"></i>
+                            {% else %}
+                            <i class="fa-sharp fa-solid fa-xmark" style="color: white;"></i>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-heart"></i>
+                            :
+                            {{all_std.like}}
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-user"></i>
+                            :
+                            {{ all_std.admin }}
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <span class="coment_color">
+                            descrition:
+                        </span>
+                        <br>
+                        {{ all_std.descrition }}
+                    </div>
+                    <h3 style="margin-top: 30px; font-weight: 200;">
+                        Add a Comment
+                    </h3>
+                    <form action="{% url 'main_app:add_new_coment' all_std.id %}" method="POST" class="add_com">
+                        <input type="text" name="full_name" placeholder="full name" maxlength="50">
+                        <textarea name="comment" placeholder="comment" cols="30" rows="10"></textarea>
+                        <input type="submit">
+                        {% csrf_token %}
+                    </form>
+                </div>
+                <h1 style="margin: 20px 0px ; font-weight: 200; color: #08974f; text-align: left;">
+                    All Comment : {{ len_com }}
+                </h1>
+                {% for i in coment %}
+                <div class="comment_block">
+                    <div class="df_coment">
+                        <div>
+                            <p><span class="coment_color">User: <br></span>{{i}}</p>
+                        </div>
+                        <div>
+                            <form action="{% url 'main_app:del_com' i.id %}" method="post">
+                                <button type="submit" class="del_btn">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                                {% csrf_token %}
+                            </form>
+                        </div>
+                    </div>
+                    <br>
+                    <p><span class="coment_color">Comment:</span><br>{{ i.coments }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+{% endblock context %}

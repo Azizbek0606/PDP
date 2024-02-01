@@ -1,0 +1,27 @@
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+{% block added %}
+
+<div class="mt">
+    <div class="container">
+        <form action="" method="POST">
+            <div class="input_style">
+                <h1 style="font-weight: 200;">Add New Student</h1>
+                <input type="text" name="name" placeholder="Student's name">
+                <input type="number" name="num" placeholder="Age">
+                <p style="color: #08974f; text-transform: uppercase;">
+                    is it paid ?
+                </p>
+                <input type="checkbox" name="payment" class="chack" value="false">
+                <input type="text" name="lvl" placeholder="Lavel">
+                <input type="text" name="like" placeholder="like">
+                <input type="text" name="admin" placeholder="admin">
+                <textarea name="descrip" placeholder="description" cols="30" rows="10"></textarea>
+                <input type="submit">
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+</div>
+
+{% endblock added %} {% endcomment %}

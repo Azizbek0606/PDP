@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block context %}
+    <div style="margin-top: 250px;">
+        <p>you are logged out!</p>
+        <h1>Do you want to <a href="{% url 'main_app:login' %}">login</a>?</h1>
+    </div>
+{% endblock context %}

@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Document</title>
+</head>
+
+<body>
+    <nav>
+        <div class="logo1">
+            <h1><a href="{% url 'main_app:home' %}">
+                    {{ request.user.username }}'s Students
+                </a></h1>
+        </div>
+        <div class="logo2">
+            <ul>
+                <li><a href="{% url 'main_app:home' %}">
+                        Home
+                    </a></li>
+                <li>
+                    <a href="{% url 'main_app:card' %}">
+                        Cards
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'main_app:create' %}">
+                        Add Student
+                    </a>
+                </li>
+                <li>
+                    <ul class="filter_drop_down">
+                        <div class="wrapper">
+                            <li id="payment">
+                                payment
+                            </li>
+                            <li id="age">
+                                age
+                            </li>
+                            <li class="lvl">
+                                priority
+                            </li>
+                        </div>
+                        <div class="left">
+                            <p>
+                                <a href="{% url 'main_app:filter_payment_true' %}">
+                                <i class="fa-solid fa-check" style="color: white;"></i>
+                                </a>
+                            </p>
+                            <p>
+                            <a href="{% url 'main_app:filter_payment_false' %}">
+                                <i class="fa-sharp fa-solid fa-xmark" style="color: white;"></i>
+                            </a>    
+                            </p>
+                        </div>
+                        <div class="bottom">
+                            <p>
+                                <a href="{% url 'main_app:filter_age15' %}">
+                                    15
+                                </a>
+                            </p>
+                            <p>
+                                <a href="{% url 'main_app:filter_age18' %}">
+                                    18
+                                </a>
+                            </p>
+                            <p>
+                                <a href="{% url 'main_app:filter_age20' %}">
+                                    20
+                                </a>
+                            </p>
+                        </div>
+                        <div class="right">
+                            <p>
+                                <a href="{% url 'main_app:filter_lvl_green' %}">
+                                    green
+                                </a>
+                            </p>
+                            <p>
+                                <a href="{% url 'main_app:filter_lvl_yellow' %}">
+                                    yellow
+                                </a>
+                            </p>
+                            <p>
+                                <a href="{% url 'main_app:filter_lvl_red' %}">
+                                    red
+                                </a>
+                            </p>
+                        </div>
+                    </ul>
+                </li>
+                <li>
+                    <p class="to_bottom">
+                        Search
+                    </p>
+                </li>
+            </ul>
+        </div>
+        <div class="logo3">
+            <ul>
+                {% if user.is_authenticated %}
+                <a href="{% url 'main_app:logout' %}">
+                    <li>Log out</li>
+                </a>
+                {% else %}
+                <a href="{% url 'main_app:login' %}">
+                    <li>Log in</li>
+                </a>
+                <a href="#">
+                    <li>Sign up</li>
+                </a>
+                {% endif %}
+            </ul>
+        </div>
+        {% if messages %}
+        <div class="messages_block">
+            <p>{{ messages }}</p>
+        </div>
+        {% endif %}
+    </nav>
+    <div class="search_box" style="transform: translateY(-350px);">
+        <form action="{% url 'main_app:search_method' %}" method="GET">
+            <input type="text" name="search_text" placeholder="search with student name">
+            <input type="submit" class="other_style">
+            {% csrf_token %}
+        </form>
+        <div class="icon_sty">
+            <i class="fa-solid fa-caret-down"
+                onclick="this.parentElement.parentElement.style.cssText = `transform: translateY(-350px);`"></i>
+        </div>
+    </div>
+    {% block content %}
+    {% endblock content %}
+
+    {% block context %}
+    {% endblock context %}
+
+    {% block card %}
+    {% endblock card %}
+    {% block filter_block %}
+    {% endblock filter_block %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/v4-shims.min.js"
+        integrity="sha512-jwXCc38I7s9ikGI6qbqIcktgJDVVppplsNQ5DgW7VbUZCVvdo31qQnpgiU7aDQRa3pETbn9LPnOo97r4Id5/cg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
+
+</html>

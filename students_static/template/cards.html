@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block card %}
+
+<div class="mt">
+    <div class="container">
+        <div class="df">
+            {% for i in std %}
+            <div class="card1" name="{{ i.payment }}">
+                <div class="img_box">
+                    <a href="{% url 'main_app:full_std_about' i.id %}">
+                        <img src="{{ i.img.url }}" width="100%" alt="">
+                    </a>
+                </div>
+                <p class="first_p"><span>{{ i.slug_name }} </span><span> {{ i.age }}</span><span> {{i.gander}}</span><span id="change_bg">{{ i.lavel }} </span>
+                </p>
+                <p class="first_p"><span>{{ i.admin }} </span><span> {{ i.data_time|date:'Y:M:d' }}</span><span>
+                        {{i.data_time|date:'H:m'}}</span></p>
+                <p>
+                    {% with ''|center:i.rating as range %}
+                    {% for _ in range %}
+                    <i class="fa-solid fa-star"></i>
+                    {% endfor %}
+                    {% endwith %}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock card %}

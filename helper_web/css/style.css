@@ -1,0 +1,220 @@
+@font-face {
+    font-family: "nunito";
+    src: url(../font/Nunito-VariableFont_wght.ttf);
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "nunito";
+    list-style: none;
+    text-decoration: none;
+    color: white;
+}
+header{
+    width: 100%;
+    height: 100px;
+    position: fixed;
+    background-color: rgba(0,0,0,0.3);
+    backdrop-filter: blur(30px);
+    z-index: 999;
+}
+nav{
+    max-width: 1300px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav_context ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.logo{
+    width: 130px;
+    height: 70px;
+}
+.container{
+    max-width: 1300px;
+    height: auto;
+    margin: 0 auto;
+}
+.banner_full_wrappper{
+    width: 100%;
+    height: 100vh;
+    background: url(../img/banner.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.banner{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 50px;
+}
+.left_img_block_banner , .right_context_block_banner{
+    width: 450px;
+    height: 450px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.3);
+    backdrop-filter: blur(30px);
+}
+.right_context_block_banner{
+    width: 750px;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+button{
+    width: 100%;
+    height: 70px;
+    background-color: rgba(0,0,0,0.3);
+    backdrop-filter: blur(30px);
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px rgb(255, 255, 255, 0.5);
+}
+.about_full_wrapper{
+    width: 100%;
+    min-height: 100vh !important;
+    background: url(../img/about.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 50px;
+}
+.about_full_wrapper > div{
+    display: flex;
+    gap: 30px;
+    flex-direction: column;
+}
+.title_block , .main_text_about{
+    width: 100%;
+    height: 70px;
+    background-color: rgba(0,0,0,0.3);
+    backdrop-filter: blur(30px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+.main_text_about{
+    height: auto;
+    padding: 20px 25px;
+    line-height: 30px;
+    text-align: center;
+}
+.contact_full_wrapper{
+    width: 100%;
+    height: 500px;
+    background-image: url(../img/contact.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding-top: 50px;
+}
+.main_wrapper_with_btn{
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: rgba(0,0,0,0.3);
+    backdrop-filter: blur(30px);
+    border-radius: 10px;
+}
+.main_contact_wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.main_contact_wrapper > div{
+    width: 50%;
+    height: 75%;
+    padding: 10px;
+}
+.inputs_block{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.inputs_block > input,
+.textarea_block > input{
+    width: 100%;
+    height: 45%;
+    position: relative;
+    border: none;
+    outline: none;
+    background-color: rgba(0,0,0,0.3);
+    backdrop-filter: blur(30px);
+    border-radius: 10px;
+    padding: 10px;
+}
+.inputs_block > input::placeholder,
+.textarea_block > input::placeholder{
+    position: absolute;
+    color: white;
+    top: 10px;
+    left: 10px;
+}
+.textarea_block > input{
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width:1200px) {
+    .banner{
+        flex-direction: column-reverse;
+        gap: 30px;
+    }
+    .banner > div{
+        width: 100%;
+    }
+    .image_block_banner{
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+    }
+    .right_context_block_banner{
+        height: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+    }
+    .banner img{
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .banner_full_wrappper{
+        height: auto;
+    }
+}

@@ -36,7 +36,7 @@
 # arr.remove(2)
 # print(arr1)
 
-arr = [1,2,3]
-arr1 = [4,5,6]
-arr1.extend(arr)
-print(arr1)
+# arr = [1,2,3]
+# arr1 = [4,5,6]
+# arr1.extend(arr)
+# print(arr1)

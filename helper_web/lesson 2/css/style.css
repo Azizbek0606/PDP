@@ -1,0 +1,78 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "nunito";
+}
+.banner_block , .paragrf{
+    width: 100%;
+    height: 100vh;
+    background: url(../img/1.1.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #13212390;
+    background-blend-mode: color;
+    background-attachment: fixed;
+}
+.paragrf{
+    background-image: url(../img/violetcity.jpg);
+}
+.banner_block h2 , .paragrf p{
+    padding: 20px 100px;
+    border: 1px solid white;
+    background: rgba(255, 255, 255, 0.263);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    color: #132123;
+}
+.paragrf p{
+    width: 550px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    border: 1px solid #132123;
+    background: #13212343;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+.same_block{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #132123;
+    color: white;
+}
+.image_block{
+    background: url(../img/mac\ white.jpg) no-repeat center center;
+    background-size: cover;
+    width: 48%;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid white;
+    background-attachment: fixed;
+}
+.context_block{
+    width: 48%;
+    height: 100%;
+    border-radius: 20px;
+    border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.context_block p{
+    width: 90%;
+    padding: 20px 40px;
+    border: 1px solid black;
+    background-color: rgba(0, 0, 0, 0.30);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}

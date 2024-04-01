@@ -11,7 +11,8 @@ def until_50():
         random_num = get_randomnumber()
         if random_num <= 50 and random_num >= 18:
             return random_num
-            break
+        else:
+            continue
 
 def for_experience():
     return random.randint(3, 25)

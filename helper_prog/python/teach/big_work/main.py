@@ -15,29 +15,17 @@ company = {}
 #     }
 # }
 def create_fake_workers():
-    salary = {}
-    salary_arr = []
-    for i in range(12):
-        salary_arr.append(random_number.for_salary())
-    else:
-        salary.update({"salary": salary_arr})
+    salary_arr = [random_number.for_salary() for _ in range(12)]
+    salary = {"salary": salary_arr}
+
     email = {"email": fake_name.get_random_email()}
-    experience = {}
-    age = {}
-    age.update({"age": random_number.until_50()})
-    while True:
-        experience_num = random_number.for_experience()
-        if (age["age"] - experience_num) >= 18 and (age["age"] - experience_num) < 25:
-            experience.update({"experience": experience_num})
-            break
-        else:
-            continue
-    result_dict = {}
-    result_dict.update(age)
-    result_dict.update(email)
-    result_dict.update(experience)
-    result_dict.update(salary)
-    return result_dict
+
+    age = {"age": random_number.until_50()}
+    experience_num = random_number.for_experience(age["age"])
+    experience = {"experience": experience_num}
+
+    worker = {**salary, **email, **age, **experience}
+    return worker
 
 def worker():
     worker_list = {}
@@ -52,6 +40,6 @@ def works(work_name):
         work_list.update({i: worker()})
     return work_list
 
-names_list = ["front end" , "back end" , "designer" , "project manger"]
-company.update(works(names_list))
+work_name = ["front end" ]
+company.update(works(work_name))
 print(company)

@@ -14,5 +14,10 @@ def until_50():
         else:
             continue
 
-def for_experience():
-    return random.randint(3, 25)
+def for_experience(age):
+    if age >= 19 and age <= 25:
+        return age - 18
+    elif age >= 25 and age <= 35:
+        return age - 20
+    else:
+        return age - 10

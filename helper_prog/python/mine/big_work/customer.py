@@ -46,6 +46,12 @@ def customers_list_visualization(incoming_text):
         else:
             print("wrong number try again !!!\n")
             continue
-    selected_customer = filter_customers[incoming_number].items()
+    selected_customer = filter_customers[incoming_number]
+    print(f"selected customer:\n{selected_customer}\n")
+    return selected_customer
 
-customers_list_visualization("choose customer:\n")
+def main_function_visualization(product_price):
+    selected_customers = customers_list_visualization("choose customer: \n")
+    product_list = filter_by_price_works_names(selected_customers["field"] , product_price)
+
+main_function_visualization(14000)

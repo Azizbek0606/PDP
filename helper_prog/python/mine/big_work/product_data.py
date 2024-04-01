@@ -1,6 +1,6 @@
 product = {
     "html": {"price": 15000, "name": "html", "to_who": ["front end"]},
-    "css": {"price": 7000, "name": "css", "to_who": ["front end"]},
+    "css": {"price":  7000, "name": "css", "to_who": ["front end"]},
     "js": {"price": 27000, "name": "js", "to_who": ["front end"]},
     "python": {"price": 34000, "name": "python", "to_who": ["back end"]},
     "django": {"price": 35000, "name": "django", "to_who": ["back end"]},
@@ -35,5 +35,3 @@ product = {
     "uxpin": {"price": 7300, "name": "uxpin", "to_who": [ "ui/ux"]},
     "mockplus": {"price": 4900, "name": "mockplus", "to_who": ["designer"]},
 }
-
-print(product)

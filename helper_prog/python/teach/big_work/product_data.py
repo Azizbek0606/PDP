@@ -1,0 +1,16 @@
+# product = {
+#     "html": {"price": 15000, "name": "html", "to_who": ["front end"]},
+#     "css": {"price": 7000, "name": "css", "to_who": ["front end"]},
+#     "js": {"price": 27000, "name": "js", "to_who": ["front end"]},
+#     "python": {"price": 34000, "name": "python", "to_who": ["back end"]},
+#     "django": {"price": 35000, "name": "django", "to_who": ["back end"]},
+#     "dart": {"price": 27000, "name": "dart", "to_who": ["back end"]},
+#     "postgres": {"price": 5000, "name": "postgres", "to_who": ["front end"]},
+#     "html": {"price": 15000, "name": "html", "to_who": ["front end"]},
+#     "html": {"price": 15000, "name": "html", "to_who": ["front end"]},
+#     "html": {"price": 15000, "name": "html", "to_who": ["front end"]},
+#     "html": {"price": 15000, "name": "html", "to_who": ["front end"]},
+#     "html": {"price": 15000, "name": "html", "to_who": ["front end"]},
+#     "html": {"price": 15000, "name": "html", "to_who": ["front end"]},
+#     "html": {"price": 15000, "name": "html", "to_who": ["front end"]},
+# }

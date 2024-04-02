@@ -1,3 +1,6 @@
+from flask import Flask, jsonify
+
+app = Flask(__name__)
 product = {
     "html": {"price": 15000, "name": "html", "to_who": ["front end"]},
     "css": {"price": 7000, "name": "css", "to_who": ["front end"]},
@@ -35,3 +38,10 @@ product = {
     "uxpin": {"price": 7300, "name": "uxpin", "to_who": ["ui/ux"]},
     "mockplus": {"price": 4900, "name": "mockplus", "to_who": ["designer"]},
 }
+
+
+@app.route("/users", methods=["GET"])
+def get_users():
+    return jsonify(product)
+app.run(debug=True)
+

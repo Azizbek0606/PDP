@@ -1,0 +1,51 @@
+:root {
+  /* CSS o'zgaruvchilari */
+  --card-bg-color: #5e5e5e;
+  --card-padding: 20px;
+  --card-gap: 20px;
+  --card-radius: 8px;
+  --card-min-width: 250px;
+  --card-hover-shadow: 0px 4px 8px #2d4d51;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'nunito';
+    color: white;
+    background-color: black;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
+  gap: var(--card-gap);
+  padding: var(--card-gap);
+}
+
+.card {
+  background-color: var(--card-bg-color);
+  padding: var(--card-padding);
+  border-radius: var(--card-radius);
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animatsiyalar */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+/* Kichik ekranlar uchun moslashuvchanlik */
+@media screen and (max-width: 600px) {
+  :root {
+    --card-min-width: 150px; /* Kichik ekranlarda card kengligini o'zgartirish */
+  }
+}
+
+/* O'rta hajmdagi ekranlar uchun, masalan, planshetlar */
+@media screen and (min-width: 601px) and (max-width: 900px) {
+  :root {
+    --card-min-width: 200px; /* O'rta hajmdagi ekranlar uchun */
+  }
+}

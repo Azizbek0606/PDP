@@ -22,9 +22,9 @@ def worker():
         worker_list.update({worker_name: create_fake_workers()})
     return worker_list
 
-company = {}
 def works(work_name):
     work_list = {}
+    company = {}
     for i in work_name:
         work_list.update({i: worker()})
     company.update(work_list)

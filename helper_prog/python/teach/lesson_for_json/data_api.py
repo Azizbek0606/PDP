@@ -1,169 +1,13 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from collections import OrderedDict
+import json
 
 app = Flask(__name__)
 CORS(app)
 
-data = {
-    "first_course": {
-        "240230": {
-            "name": "Anvar",
-            "age": 18,
-            "gender": "male",
-            "city": "Andijon",
-            "region": "Asaka",
-            "street": "Saxiylik",
-            "house": 14,
-        },
-        "240231": {
-            "name": "Sardor",
-            "age": 19,
-            "gender": "male",
-            "city": "Buxoro",
-            "region": "Navoiy",
-            "street": "Yetti chinor",
-            "house": 177,
-        },
-    },
-    "second_course": {
-        "230757": {
-            "name": "Azizbek",
-            "age": 18,
-            "gender": "male",
-            "city": "Andijon",
-            "region": "Asaka",
-            "street": "Saxiylik",
-            "house": 6,
-        },
-        "230786": {
-            "name": "Dilshod",
-            "age": 18,
-            "gender": "male",
-            "city": "Surxondaryo",
-            "region": "Bo'taqara",
-            "street": "Tanga topdi",
-            "house": 61,
-        },
-        "240230": {
-            "name": "Anvar",
-            "age": 18,
-            "gender": "male",
-            "city": "Andijon",
-            "region": "Asaka",
-            "street": "Saxiylik",
-            "house": 14,
-        },
-        "240231": {
-            "name": "Sardor",
-            "age": 19,
-            "gender": "male",
-            "city": "Buxoro",
-            "region": "Navoiy",
-            "street": "Yetti chinor",
-            "house": 177,
-        },
-    },
-    "third_course": {
-        "230345": {
-            "name": "Saydullox",
-            "age": 19,
-            "gender": "male",
-            "city": "Andijon",
-            "region": "Asaka",
-            "street": "Farg'ona Ko'cha",
-            "house": 45,
-        },
-        "220231": {
-            "name": "Shaxriyor",
-            "age": 19,
-            "gender": "male",
-            "city": "Surxondaryo",
-            "region": "Kulla",
-            "street": "Ozodlik",
-            "house": 72,
-        },
-    },
-    "fourth_course": {
-        "230345": {
-            "name": "Saydullox",
-            "age": 19,
-            "gender": "male",
-            "city": "Andijon",
-            "region": "Asaka",
-            "street": "Farg'ona Ko'cha",
-            "house": 45,
-        },
-        "220231": {
-            "name": "Shaxriyor",
-            "age": 19,
-            "gender": "male",
-            "city": "Surxondaryo",
-            "region": "Kulla",
-            "street": "Ozodlik",
-            "house": 72,
-        },
-        "240230": {
-            "name": "Anvar",
-            "age": 18,
-            "gender": "male",
-            "city": "Andijon",
-            "region": "Asaka",
-            "street": "Saxiylik",
-            "house": 14,
-        },
-        "240231": {
-            "name": "Sardor",
-            "age": 19,
-            "gender": "male",
-            "city": "Buxoro",
-            "region": "Navoiy",
-            "street": "Yetti chinor",
-            "house": 177,
-        },
-    },
-    "school_1": {
-        "230345": {
-            "name": "Alibek",
-            "age": 19,
-            "gender": "male",
-            "city": "Andijon",
-            "region": "Asaka",
-            "street": "Farg'ona Ko'cha",
-            "house": 45,
-        },
-        "220231": {
-            "name": "Shaxriyor",
-            "age": 19,
-            "gender": "male",
-            "city": "Surxondaryo",
-            "region": "Kulla",
-            "street": "Ozodlik",
-            "house": 72,
-        },
-    },
-    "school_2": {
-        "230345": {
-            "name": "Alibek",
-            "age": 19,
-            "gender": "male",
-            "city": "Andijon",
-            "region": "Asaka",
-            "street": "Farg'ona Ko'cha",
-            "house": 45,
-        },
-        "220231": {
-            "name": "Shaxriyor",
-            "age": 19,
-            "gender": "male",
-            "city": "Surxondaryo",
-            "region": "Kulla",
-            "street": "Ozodlik",
-            "house": 72,
-        },
-    },
-}
-
+with open("data.json", "r") as file:
+    data = json.load(file)
 
 @app.route("/students", methods=["GET"])
 def get_all_students():
@@ -171,6 +15,38 @@ def get_all_students():
     for key in sorted(data.keys()):
         ordered_data[key] = OrderedDict(sorted(data[key].items()))
     return jsonify(ordered_data)
+
+
+@app.route("/add_student", methods=["POST"])
+def add_student():
+    try:
+        new_student_data = request.get_json()
+
+        if new_student_data != None:
+            s_name = new_student_data.get("name")
+            s_age = new_student_data.get("age")
+            s_id = new_student_data.get("id")
+            s_city = new_student_data.get("city")
+            s_street = new_student_data.get("street")
+            s_gender = new_student_data.get("gender")
+            s_course = new_student_data.get("course")
+            s_region = new_student_data.get("region")
+            s_house = new_student_data.get("houes")
+        else:
+            return jsonify({"message": "Ha mazgi bizi lo'x deb o'ylaydi bular \nqani malumot !!!"}), 201
+
+        # if not student_id or not student_info:
+        #     return jsonify({"error": "student_id va student_info kerak"}), 400
+
+        # data[student_id] = student_info
+
+        # with open("data.json", "w") as file:
+        #     json.dump(data, file, indent=4)
+
+        return jsonify({"message": "Talaba muvaffaqiyatli qo'shildi"}), 201
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":

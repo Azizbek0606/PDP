@@ -1,15 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <title>First API</title>
 </head>
+
 <body>
     <div class="container">
-        
+        <form>
+            <div class="student_info_wrapper">
+                <div class="students_info">
+                    <div class="student_info_private">
+                        <input id="student_name" type="text" placeholder="Name">
+                        <input id="age" type="number" placeholder="Age">
+                        <input id="student_id" type="number" placeholder="ID">
+                        <input id="course" type="text" placeholder="Course">
+                        <select id="gender">
+                            <option selected disabled>Gender</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                    <div class="student_info_location">
+                        <input id="city" type="text" placeholder="City">
+                        <input id="region" type="text" placeholder="Region">
+                        <input id="street" type="text" placeholder="Street">
+                        <input id="house" type="number" placeholder="House Number">
+                    </div>
+                </div>
+                <button class="btn_to_send" type="submit"
+                    onclick="show_info(student_name, age, student_id, course, gender, city, region, street, house)">Send</button>
+            </div>
+        </form>
+    </div>
+    <div class="menu">
+        <div class="menu_title">
+            <h3>MENU</h3>
+        </div>
+        <div class="menu_item_list">
+            <div>
+                <p>Students List</p>
+            </div>
+            <div>
+                <p>Add Students</p>
+            </div>
+            <div>
+
+            </div>
+            <div>
+
+            </div>
+            <div>
+
+            </div>
+        </div>
     </div>
     <script src="./app.js"></script>
 </body>
+
 </html>

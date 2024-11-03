@@ -44,3 +44,48 @@ getData().then(data => {
         container.append(showData);
     }
 });
+
+
+
+function add_student(student_data) {
+    const apiUrl = "http://127.0.0.1:5000/add_student";
+    fetch(apiUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(student_data)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Talabani qo'shishda xatolik yuz berdi");
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Javob:", data);
+        })
+        .catch(error => {
+            console.error("Xatolik:", error);
+        });
+}
+
+function show_info(name, age, id, course, gender, city, region, street, house) {
+    const sorted_data = {
+        name: name.value,
+        age: age.value,
+        id: id.value,
+        course: course.value,
+        gender: gender.value,
+        city: city.value,
+        region: region.value,
+        street: street.value,
+        house: house.value
+    };
+
+    if (Object.values(sorted_data).every(value => value !== "")) {
+        add_student(sorted_data);
+    }else{
+        alert("fill out the form first")
+    }
+}

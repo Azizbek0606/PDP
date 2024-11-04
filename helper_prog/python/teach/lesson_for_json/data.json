@@ -1,5 +1,5 @@
 {
-    "first_course": {
+    "first course": {
         "240230": {
             "name": "Anvar",
             "age": 18,
@@ -17,9 +17,27 @@
             "region": "Navoiy",
             "street": "Yetti chinor",
             "house": 177
+        },
+        "230230": {
+            "name": "Dilshod",
+            "age": "17",
+            "gender": "Male",
+            "city": "aa",
+            "region": "das",
+            "street": "das",
+            "house": "12"
+        },
+        "230231": {
+            "name": "Ali",
+            "age": "18",
+            "gender": "male",
+            "city": "Andijan",
+            "region": "Asaka",
+            "street": "Saxiylik",
+            "house": "14"
         }
     },
-    "second_course": {
+    "second course": {
         "230757": {
             "name": "Azizbek",
             "age": 18,
@@ -47,7 +65,7 @@
             "street": "Saxiylik",
             "house": 14
         },
-        "240231": {
+        "240159": {
             "name": "Sardor",
             "age": 19,
             "gender": "male",
@@ -57,7 +75,7 @@
             "house": 177
         }
     },
-    "third_course": {
+    "third course": {
         "230345": {
             "name": "Saydullox",
             "age": 19,
@@ -77,7 +95,7 @@
             "house": 72
         }
     },
-    "fourth_course": {
+    "fourth course": {
         "230345": {
             "name": "Saydullox",
             "age": 19,
@@ -113,46 +131,6 @@
             "region": "Navoiy",
             "street": "Yetti chinor",
             "house": 177
-        }
-    },
-    "school_1": {
-        "230345": {
-            "name": "Alibek",
-            "age": 19,
-            "gender": "male",
-            "city": "Andijon",
-            "region": "Asaka",
-            "street": "Farg'ona Ko'cha",
-            "house": 45
-        },
-        "220231": {
-            "name": "Shaxriyor",
-            "age": 19,
-            "gender": "male",
-            "city": "Surxondaryo",
-            "region": "Kulla",
-            "street": "Ozodlik",
-            "house": 72
-        }
-    },
-    "school_2": {
-        "230345": {
-            "name": "Alibek",
-            "age": 19,
-            "gender": "male",
-            "city": "Andijon",
-            "region": "Asaka",
-            "street": "Farg'ona Ko'cha",
-            "house": 45
-        },
-        "220231": {
-            "name": "Shaxriyor",
-            "age": 19,
-            "gender": "male",
-            "city": "Surxondaryo",
-            "region": "Kulla",
-            "street": "Ozodlik",
-            "house": 72
         }
     }
 }

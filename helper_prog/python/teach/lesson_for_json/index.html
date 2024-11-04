@@ -10,31 +10,37 @@
 
 <body>
     <div class="container">
-        <form>
-            <div class="student_info_wrapper">
-                <div class="students_info">
-                    <div class="student_info_private">
-                        <input id="student_name" type="text" placeholder="Name">
-                        <input id="age" type="number" placeholder="Age">
-                        <input id="student_id" type="number" placeholder="ID">
-                        <input id="course" type="text" placeholder="Course">
-                        <select id="gender">
-                            <option selected disabled>Gender</option>
-                            <option>Male</option>
-                            <option>Female</option>
-                        </select>
-                    </div>
-                    <div class="student_info_location">
-                        <input id="city" type="text" placeholder="City">
-                        <input id="region" type="text" placeholder="Region">
-                        <input id="street" type="text" placeholder="Street">
-                        <input id="house" type="number" placeholder="House Number">
-                    </div>
+        <div class="student_info_wrapper" id="student_info_wrapper">
+        </div>
+        <div class="get_student_info" id="student_get_info">
+            <div class="students_info">
+                <div class="student_info_private">
+                    <input id="student_name" type="text" placeholder="Name">
+                    <input id="age" type="number" placeholder="Age">
+                    <input id="student_id" type="number" placeholder="ID">
+                    <select id="course">
+                        <option selected disabled>Course</option>
+                        <option>First course</option>
+                        <option>Second course</option>
+                        <option>Third course</option>
+                        <option>Fourth course</option>
+                    </select>
+                    <select id="gender">
+                        <option selected disabled>Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
                 </div>
-                <button class="btn_to_send" type="submit"
-                    onclick="show_info(student_name, age, student_id, course, gender, city, region, street, house)">Send</button>
+                <div class="student_info_location">
+                    <input id="city" type="text" placeholder="City">
+                    <input id="region" type="text" placeholder="Region">
+                    <input id="street" type="text" placeholder="Street">
+                    <input id="house" type="number" placeholder="House Number">
+                </div>
             </div>
-        </form>
+            <button class="btn_to_send" type="submit"
+                onclick="show_info(student_name, age, student_id, course, gender, city, region, street, house)">Send</button>
+        </div>
     </div>
     <div class="menu">
         <div class="menu_title">
@@ -42,10 +48,9 @@
         </div>
         <div class="menu_item_list">
             <div>
-                <p>Students List</p>
+                <p onclick="change_tabs(student_get_info , student_info_wrapper, this)">Add Student</p>
             </div>
             <div>
-                <p>Add Students</p>
             </div>
             <div>
 

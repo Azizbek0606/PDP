@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import List, Dict, Optional
 
+
 class ParkingSpot(ABC):
     def __init__(self, id: int, is_free: bool = True):
         self.id = id
@@ -10,8 +11,11 @@ class ParkingSpot(ABC):
     def get_is_free(self) -> bool:
         return self.is_free
 
+
 class Payment(ABC):
-    def __init__(self, amount: float, status: str = "Pending", timestamp: datetime = None):
+    def __init__(
+        self, amount: float, status: str = "Pending", timestamp: datetime = None
+    ):
         self.amount = amount
         self.status = status
         self.timestamp = timestamp or datetime.now()
@@ -24,6 +28,7 @@ class Payment(ABC):
     def validate_ticket(self) -> bool:
         pass
 
+
 class Account(ABC):
     def __init__(self, username: str, password: str, status: str = "Active"):
         self.username = username
@@ -34,34 +39,41 @@ class Account(ABC):
     def reset_password(self) -> bool:
         pass
 
-# Konkret sinflar
+
 class Large(ParkingSpot):
     def __init__(self, id: int, is_free: bool = True):
         super().__init__(id, is_free)
+
 
 class Motorcycle(ParkingSpot):
     def __init__(self, id: int, is_free: bool = True):
         super().__init__(id, is_free)
 
+
 class Compact(ParkingSpot):
     def __init__(self, id: int, is_free: bool = True):
         super().__init__(id, is_free)
+
 
 class Handicapped(ParkingSpot):
     def __init__(self, id: int, is_free: bool = True):
         super().__init__(id, is_free)
 
+
 class Car(ParkingSpot):
     def __init__(self, id: int, is_free: bool = True):
         super().__init__(id, is_free)
+
 
 class Truck(ParkingSpot):
     def __init__(self, id: int, is_free: bool = True):
         super().__init__(id, is_free)
 
+
 class Van(ParkingSpot):
     def __init__(self, id: int, is_free: bool = True):
         super().__init__(id, is_free)
+
 
 class CreditCard(Payment):
     def __init__(self, amount: float, card_number: str, status: str = "Pending"):
@@ -76,6 +88,7 @@ class CreditCard(Payment):
     def validate_ticket(self) -> bool:
         return self.status == "Completed"
 
+
 class Cash(Payment):
     def __init__(self, amount: float, status: str = "Pending"):
         super().__init__(amount, status)
@@ -87,6 +100,7 @@ class Cash(Payment):
 
     def validate_ticket(self) -> bool:
         return self.status == "Completed"
+
 
 class ParkingTicket:
     def __init__(self, ticket_id: int, entry_time: datetime):
@@ -101,12 +115,14 @@ class ParkingTicket:
     def set_exit_time(self, exit_time: datetime) -> None:
         self.exit_time = exit_time
 
+
 class Entrance:
     def __init__(self, id: int):
         self.id = id
 
     def get_ticket(self) -> ParkingTicket:
         return ParkingTicket(self.id, datetime.now())
+
 
 class ParkingLot:
     def __init__(self, id: int, name: str):
@@ -123,6 +139,7 @@ class ParkingLot:
     def is_full(self) -> bool:
         return self.is_full
 
+
 class ParkingRate:
     def __init__(self, hours: float, rate: float):
         self.hours = hours
@@ -130,6 +147,7 @@ class ParkingRate:
 
     def calculate(self) -> float:
         return self.hours * self.rate
+
 
 class DisplayBoard:
     def __init__(self, id: int):
@@ -146,33 +164,36 @@ class DisplayBoard:
             free_spots = [spot.id for spot in spots if spot.get_is_free()]
             print(f"Free {spot_type} spots: {free_spots}")
 
+
 class Admin:
     def __init__(self):
         self.parking_agent = ParkingAgent()
 
     def add_parking_spot(self, parking_spot: ParkingSpot) -> bool:
-        # Logic to add parking spot
+
         return True
 
     def add_entrance(self, entrance: Entrance) -> bool:
-        # Logic to add entrance
+
         return True
 
     def add_exit(self, exit: Entrance) -> bool:
-        # Logic to add exit
+
         return True
 
     def process_ticket(self, ticket: ParkingTicket) -> bool:
-        # Logic to process ticket
+
         return True
+
 
 class ParkingAgent:
     def __init__(self):
         self.preferred_spots = []
 
     def process_ticket(self, ticket: ParkingTicket) -> bool:
-        # Logic to process ticket with preference
+
         return True
+
 
 class AccountImpl(Account):
     def __init__(self, username: str, password: str):
@@ -182,7 +203,7 @@ class AccountImpl(Account):
         self.password = "newpassword123"
         return True
 
-# Misol sifatida ishlatish
+
 if __name__ == "__main__":
     parking_lot = ParkingLot(1, "City Parking")
     ticket = parking_lot.get_parking_ticket()

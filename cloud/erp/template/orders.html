@@ -1,0 +1,121 @@
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/orders.css' %}">
+<div class="content-header">
+    <h1>Orders</h1>
+    <div class="breadcrumb">
+        <span>Home</span> / <span>Orders</span>
+    </div>
+</div>
+
+<div class="content-body">
+    <div class="card">
+        <div class="card-header">
+            <h3>Orders List</h3>
+            <div class="filter-box">
+                <form method="get" class="filter-form">
+                    <label for="status">Status:</label>
+                    <select id="status" name="status" class="form-control" onchange="this.form.submit()">
+                        <option value="">All</option>
+                        {% for status, label in status_choices %}
+                        <option value="{{ status }}" {% if current_status == status %}selected{% endif %}>{{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+        </div>
+        {% if orders %}
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr onclick="openModal('orderModal-{{ order.id }}')">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
+                    <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        <span class="status-badge status-{{ order.status|lower }}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ order.total_amount }} $</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Paginatsiya -->
+        {% if orders.has_other_pages %}
+        <div class="pagination">
+            {% if orders.has_previous %}
+            <a href="?page={{ orders.previous_page_number }}{% if current_status %}&status={{ current_status }}{% endif %}"
+                class="btn btn-sm">Previous</a>
+            {% endif %}
+            <span class="page-info">
+                {{ orders.number }}-Page / {{ orders.paginator.num_pages }}
+            </span>
+            {% if orders.has_next %}
+            <a href="?page={{ orders.next_page_number }}{% if current_status %}&status={{ current_status }}{% endif %}"
+                class="btn btn-sm">Next</a>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% else %}
+        <p>Orders not found!</p>
+        {% endif %}
+    </div>
+</div>
+{% for order in orders %}
+<div id="orderModal-{{ order.id }}" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('orderModal-{{ order.id }}')">×</span>
+        <h3>Order #{{ order.id }} Details</h3>
+        <div class="order-details">
+            <p><strong>Customer:</strong> {{ order.customer.first_name }} {{ order.customer.last_name }}</p>
+            <p><strong>Email:</strong> {{ order.customer.email }}</p>
+            <p><strong>Phone:</strong> {{ order.customer.phone }}</p>
+            <p><strong>Address:</strong> {{ order.customer.address }}</p>
+            <p><strong>Order Date:</strong> {{ order.order_date|date:"Y-m-d H:i" }}</p>
+            <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+            <p><strong>Total Amount:</strong> {{ order.total_amount }} $</p>
+            <h4>Order Items</h4>
+            {% if order.items.all %}
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.unit_price }} $</td>
+                        <td>{{ item.total_price }} $</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No items in this order.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

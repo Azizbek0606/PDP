@@ -1,0 +1,195 @@
+{% extends "wrapper.html" %}
+{% load static %}
+{% block content %}
+<div class="content-header">
+    <h1>Dashboard Overview</h1>
+    <div class="breadcrumb">
+        <span>Home</span> / <span>Dashboard</span>
+    </div>
+</div>
+
+<div class="content-body">
+    <!-- Statistika kartalari -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <i class="fas fa-users"></i>
+            <h3>Customers</h3>
+            <p>{{ total_customers }}</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-user-tie"></i>
+            <h3>Delivers</h3>
+            <p>{{ total_suppliers }}</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-boxes"></i>
+            <h3>Products</h3>
+            <p>{{ total_products }}</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-shopping-cart"></i>
+            <h3>Orders</h3>
+            <p>{{ total_orders }}</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-dollar-sign"></i>
+            <h3>Total transactions</h3>
+            <p>${{ total_transactions|floatformat:2 }}</p>
+        </div>
+    </div>
+
+    <!-- Grafiklar -->
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>Order status</h3>
+            <canvas id="orderStatusChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <h3>Product categories</h3>
+            <canvas id="productCategoryChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Kam qolgan mahsulotlar -->
+    <div class="card">
+        <h3>Low-quality products</h3>
+        {% if low_stock_products %}
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Products</th>
+                    <th>Category</th>
+                    <th>Proces</th>
+                    <th>Quantity in stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in low_stock_products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.category }}</td>
+                    <td>${{ product.price|floatformat:2 }}</td>
+                    <td>{{ product.stock_quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>There is no shortage of products in the warehouse.</p>
+        {% endif %}
+    </div>
+
+    <!-- So'nggi buyurtmalar -->
+    <div class="card">
+        <h3>Last orders</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Total price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in recent_orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.customer }}</td>
+                    <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>${{ order.total_amount|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- So'nggi tranzaksiyalar -->
+    <div class="card">
+        <h3>Last transaction</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Quantity</th>
+                    <th>Payment menthod</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in recent_transactions %}
+                <tr>
+                    <td>{{ transaction.order.id }}</td>
+                    <td>${{ transaction.amount|floatformat:2 }}</td>
+                    <td>{{ transaction.payment_method }}</td>
+                    <td>{{ transaction.transaction_date|date:"Y-m-d H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Buyurtma holatlari grafikasi
+    const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
+    const statusData = {{ status_data| safe }};
+
+    new Chart(orderStatusCtx, {
+        type: 'bar',
+        data: {
+            labels: statusData.labels,
+            datasets: [{
+                label: 'Order status',
+                data: statusData.data,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                borderColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    // Mahsulot kategoriyalari grafikasi
+    const categoryCounts = {{ product_categories_json| safe }};
+    const productCategoryCtx = document.getElementById('productCategoryChart').getContext('2d');
+
+    const categoryData = {
+        labels: ['T-Shirts', 'Pants', 'Jackets', 'Shoes', 'Accessories'],
+        datasets: [{
+            label: 'Product category',
+            data: [
+                categoryCounts['T-Shirts'] || 0,
+                categoryCounts['Pants'] || 0,
+                categoryCounts['Jackets'] || 0,
+                categoryCounts['Shoes'] || 0,
+                categoryCounts['Accessories'] || 0
+            ],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+            borderWidth: 1
+        }]
+    };
+
+    new Chart(productCategoryCtx, {
+        type: 'doughnut',
+        data: categoryData,
+        options: {
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+</script>
+
+
+
+{% endblock %}

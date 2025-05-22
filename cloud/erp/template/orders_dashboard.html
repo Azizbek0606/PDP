@@ -1,0 +1,161 @@
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block content %}
+<div class="content-header">
+    <h1>Orders Dashboard</h1>
+    <div class="breadcrumb">
+        <span>Home</span> / <span>Orders</span> / <span>Dashboard</span>
+    </div>
+</div>
+
+<div class="content-body">
+    <!-- Yearly Orders by Month -->
+    <div class="card">
+        <h3>Yearly Orders by Month ({{ current_year }})</h3>
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h4>Orders Count</h4>
+                <canvas id="monthlyOrdersChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h4>Total Amount</h4>
+                <canvas id="monthlySalesChart"></canvas>
+            </div>
+        </div>
+        <ul class="data-list">
+            {% for month in monthly_orders %}
+            <li class="data-item">
+                <span>{{ month.month }}</span>
+                <span>{{ month.order_count }} orders</span>
+                <span>{{ month.total_amount|floatformat:2 }} $</span>
+            </li>
+            {% empty %}
+            <p>No orders this year.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Status Distribution -->
+    <div class="card">
+        <h3>Order Status Distribution</h3>
+        <p class="stats-subtext">Most Common Status: {{ top_status.status|lower|title }} ({{ top_status.count }} orders)
+        </p>
+        <div class="chart-container">
+            <h4>Status Breakdown</h4>
+            <canvas id="statusChart"></canvas>
+        </div>
+        <ul class="data-list">
+            {% for status in status_distribution %}
+            <li class="data-item">
+                <span>{{ status.status|lower|title }}</span>
+                <span>{{ status.count }} orders</span>
+            </li>
+            {% empty %}
+            <p>No status data available.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Top Customers -->
+    <div class="card">
+        <h3>Top 5 Customers</h3>
+        <ul class="data-list">
+            {% for customer in top_customers %}
+            <li class="data-item">
+                <span>{{ customer.first_name }} {{ customer.last_name }}</span>
+                <span>{{ customer.order_count }} orders</span>
+                <span>{{ customer.total_spent|floatformat:2 }} $</span>
+            </li>
+            {% empty %}
+            <p>No customers found.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Top Suppliers -->
+    <div class="card">
+        <h3>Top 5 Suppliers</h3>
+        <ul class="data-list">
+            {% for supplier in top_suppliers %}
+            <li class="data-item">
+                <span>{{ supplier.name }}</span>
+                <span>{{ supplier.total_quantity }} units sold</span>
+                <span>{{ supplier.total_revenue|floatformat:2 }} $</span>
+            </li>
+            {% empty %}
+            <p>No suppliers found.</p>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Monthly Orders Chart
+    const monthlyOrdersChart = new Chart(document.getElementById('monthlyOrdersChart'), {
+        type: 'bar',
+        data: {
+            labels: [{% for month in monthly_orders %}'{{ month.month }}',{% endfor %}],
+    datasets: [{
+        label: 'Orders',
+        data: [{% for month in monthly_orders %}{{ month.order_count }}, {% endfor %}],
+        backgroundColor: '#007bff',
+            borderColor: '#0056b3',
+                borderWidth: 1
+            }]
+        },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        },
+        plugins: {
+            legend: { display: false }
+        }
+    }
+    });
+
+    // Monthly Sales Chart
+    const monthlySalesChart = new Chart(document.getElementById('monthlySalesChart'), {
+        type: 'bar',
+        data: {
+            labels: [{% for month in monthly_orders %}'{{ month.month }}',{% endfor %}],
+    datasets: [{
+        label: 'Sales ($)',
+        data: [{% for month in monthly_orders %}{{ month.total_amount }}, {% endfor %}],
+        backgroundColor: '#28a745',
+            borderColor: '#218838',
+                borderWidth: 1
+            }]
+        },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        },
+        plugins: {
+            legend: { display: false }
+        }
+    }
+    });
+
+    // Status Chart
+    const statusChart = new Chart(document.getElementById('statusChart'), {
+        type: 'doughnut',
+        data: {
+            labels: [{% for status in status_distribution %}'{{ status.status|lower|title }}',{% endfor %}],
+    datasets: [{
+        data: [{% for status in status_distribution %}{{ status.count }}, {% endfor %}],
+        backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8'],
+            borderColor: ['#0056b3', '#218838', '#e0a800', '#c82333', '#138496'],
+                borderWidth: 1
+            }]
+        },
+    options: {
+        plugins: {
+            legend: { position: 'bottom' }
+        }
+    }
+    });
+</script>
+{% endblock %}

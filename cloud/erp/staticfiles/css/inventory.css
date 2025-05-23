@@ -1,0 +1,65 @@
+@import url('./main.css');
+.chart-container {
+    padding: 15px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container h4 {
+    color: var(--text);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Data List */
+.data-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.data-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    transition: background-color var(--transition-speed);
+}
+
+.data-item:hover {
+    background-color: var(--hover-bg, #f5f5f5);
+}
+
+.data-item span {
+    flex: 1;
+    text-align: left;
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .data-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .data-item span {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-container h4 {
+        font-size: 1rem;
+    }
+
+    .data-item span {
+        font-size: 0.8rem;
+    }
+}

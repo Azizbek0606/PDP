@@ -1,0 +1,102 @@
+@import url('./main.css');
+.filter-form {
+    margin: 15px 0;
+}
+
+.filter-form select {
+    padding: 8px;
+    font-size: 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--card-bg);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.filter-form select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Data List */
+.data-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.data-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    transition: background-color var(--transition-speed);
+}
+
+.data-item:hover {
+    background-color: var(--hover-bg, #f5f5f5);
+}
+
+.data-item span {
+    flex: 1;
+    text-align: left;
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.page-link {
+    padding: 8px 12px;
+    margin: 0 4px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    text-decoration: none;
+    transition: background-color var(--transition-speed);
+}
+
+.page-link:hover {
+    background-color: var(--hover-bg, #f5f5f5);
+}
+
+.page-link.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .data-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .data-item span {
+        font-size: 0.85rem;
+    }
+
+    .filter-form select {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .data-item span {
+        font-size: 0.8rem;
+    }
+
+    .page-link {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
+}

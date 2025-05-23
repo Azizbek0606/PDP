@@ -2,6 +2,47 @@ from django.contrib import admin
 from .models import *
 
 
+@admin.register(Employee)
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = (
+        "first_name", 
+        "last_name", 
+        "email", 
+        "phone",
+        "position",
+        "department",
+        "is_active"
+    )
+    list_filter = (
+        "position", 
+        "department",
+        "is_active",
+        "hire_date",
+        "created_at"
+    )
+    list_editable = (
+        "position", 
+        "department",
+        "is_active"
+    )
+    search_fields = (
+        "first_name",
+        "last_name",
+        "email",
+        "phone"
+    )
+    list_per_page = 25
+    date_hierarchy = "hire_date"
+    fieldsets = (
+        (None, {
+            'fields': ('first_name', 'last_name', 'email', 'phone')
+        }),
+        ('Employment Details', {
+            'fields': ('position', 'department', 'hire_date', 'salary', 'is_active')
+        }),
+    )
+
+
 @admin.register(Admin)
 class AdminAdmin(admin.ModelAdmin):
     list_display = ("user", "role", "phone", "created_at")

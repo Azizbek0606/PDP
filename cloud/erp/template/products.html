@@ -1,0 +1,68 @@
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block content %}
+<div class="content-header">
+    <h1>Products</h1>
+    <div class="breadcrumb">
+        <span>Home</span> / <span>Products</span>
+    </div>
+</div>
+
+<div class="content-body">
+    <!-- Category Filter -->
+    <div class="card">
+        <h3>Filter by Category</h3>
+        <form method="GET" class="filter-form">
+            <select name="category" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                {% for category in category_choices %}
+                <option value="{{ category }}" {% if current_category == category %}selected{% endif %}>
+                    {{ category }}
+                </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <!-- Products List -->
+    <div class="card">
+        <h3>Products List</h3>
+        <ul class="data-list">
+            {% for product in products %}
+            <li class="data-item">
+                <span>{{ product.name }}</span>
+                <span>{{ product.category }}</span>
+                <span>{{ product.supplier.name }}</span>
+                <span>{{ product.stock_quantity }} units</span>
+                <span>{{ product.price|floatformat:2 }} $</span>
+            </li>
+            {% empty %}
+            <p>No products found.</p>
+            {% endfor %}
+        </ul>
+
+        <!-- Pagination -->
+        {% if products.has_other_pages %}
+        <div class="pagination">
+            {% if products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}"
+                class="page-link">&laquo; Previous</a>
+            {% endif %}
+            {% for num in products.paginator.page_range %}
+            {% if products.number == num %}
+            <span class="page-link active">{{ num }}</span>
+            {% else %}
+            <a href="?page={{ num }}{% if current_category %}&category={{ current_category }}{% endif %}"
+                class="page-link">{{ num }}</a>
+            {% endif %}
+            {% endfor %}
+            {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}"
+                class="page-link">Next &raquo;</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

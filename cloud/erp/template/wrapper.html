@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'css/orders.css' %}">
     <link rel="stylesheet" href="{% static 'css/order_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/inventory.css' %}">
+    <link rel="stylesheet" href="{% static 'css/products.css' %}">
+    <link rel="stylesheet" href="{% static 'css/employee.css' %}">
 </head>
 
 <body>
@@ -85,27 +88,19 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{% url 'main:inventory' %}">
                         <i class="fas fa-boxes"></i>
                         <span>Inventory</span>
                         <i class="fas fa-chevron-right dropdown-icon"></i>
                     </a>
                     <ul class="submenu">
-                        <li><a href="#">Products</a></li>
-                        <li><a href="#">Categories</a></li>
-                        <li><a href="#">Stock Levels</a></li>
+                        <li><a href="{% url 'main:products' %}">Products</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{% url 'main:employee' %}">
                         <i class="fas fa-user-tie"></i>
                         <span>Employees</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Reports</span>
                     </a>
                 </li>
             </ul>

@@ -1,0 +1,91 @@
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block content %}
+<div class="content-header">
+    <h1>Inventory Dashboard</h1>
+    <div class="breadcrumb">
+        <span>Home</span> / <span>Inventory</span> / <span>Dashboard</span>
+    </div>
+</div>
+
+<div class="content-body">
+    <!-- Category Product Count Chart -->
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>Products by Category</h3>
+            <h4>Product Count per Category</h4>
+            <canvas id="categoryChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <h3>Top Categories by Product Count</h3>
+            <h4>Top 5 Categories</h4>
+            <canvas id="topCategoriesChart"></canvas>
+        </div>
+    </div>
+
+
+    <!-- Low Stock Products -->
+    <div class="card">
+        <h3>Low Stock Products (≤ 40 Units)</h3>
+        <ul class="data-list">
+            {% for product in low_stock_products %}
+            <li class="data-item">
+                <span>{{ product.name }}</span>
+                <span>{{ product.category.name }}</span>
+                <span>{{ product.supplier.name }}</span>
+                <span>{{ product.stock_quantity }} units</span>
+            </li>
+            {% empty %}
+            <p>No low stock products found.</p>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Category Product Count Line Chart
+    const categoryChart = new Chart(document.getElementById('categoryChart'), {
+        type: 'line',
+        data: {
+            labels: [{% for cat in category_counts %}'{{ cat.category }}',{% endfor %}],
+    datasets: [{
+        label: 'Product Count',
+        data: [{% for cat in category_counts %}{{ cat.product_count }}, {% endfor %}],
+        fill: false,
+            borderColor: '#007bff',
+                tension: 0.1
+            }]
+        },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        },
+        plugins: {
+            legend: { display: false }
+        }
+    }
+    });
+
+    // Top Categories Pie Chart
+    const topCategoriesChart = new Chart(document.getElementById('topCategoriesChart'), {
+        type: 'pie',
+        data: {
+            labels: [{% for cat in top_categories %}'{{ cat.category }}',{% endfor %}],
+    datasets: [{
+        data: [{% for cat in top_categories %}{{ cat.product_count }}, {% endfor %}],
+        backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8'],
+            borderColor: ['#0056b3', '#218838', '#e0a800', '#c82333', '#138496'],
+                borderWidth: 1
+            }]
+        },
+    options: {
+        plugins: {
+            legend: { position: 'bottom' }
+        }
+    }
+    });
+</script>
+{% endblock %}

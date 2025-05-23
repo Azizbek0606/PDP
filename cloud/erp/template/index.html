@@ -18,7 +18,7 @@
         </div>
         <div class="stat-card">
             <i class="fas fa-user-tie"></i>
-            <h3>Delivers</h3>
+            <h3>Suppliers</h3>
             <p>{{ total_suppliers }}</p>
         </div>
         <div class="stat-card">
@@ -33,7 +33,7 @@
         </div>
         <div class="stat-card">
             <i class="fas fa-dollar-sign"></i>
-            <h3>Total transactions</h3>
+            <h3>Total Transactions</h3>
             <p>${{ total_transactions|floatformat:2 }}</p>
         </div>
     </div>
@@ -41,26 +41,36 @@
     <!-- Grafiklar -->
     <div class="charts-grid">
         <div class="chart-card">
-            <h3>Order status</h3>
+            <h3>Order Status</h3>
             <canvas id="orderStatusChart"></canvas>
         </div>
         <div class="chart-card">
-            <h3>Product categories</h3>
+            <h3>Product Categories</h3>
             <canvas id="productCategoryChart"></canvas>
+        </div>
+    </div>
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>Yearly Sales</h3>
+            <canvas id="yearlySalesChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <h3>Monthly Sales</h3>
+            <canvas id="monthlySalesChart"></canvas>
         </div>
     </div>
 
     <!-- Kam qolgan mahsulotlar -->
     <div class="card">
-        <h3>Low-quality products</h3>
+        <h3>Low Stock Products</h3>
         {% if low_stock_products %}
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>Products</th>
+                    <th>Product</th>
                     <th>Category</th>
-                    <th>Proces</th>
-                    <th>Quantity in stock</th>
+                    <th>Price</th>
+                    <th>Stock Quantity</th>
                 </tr>
             </thead>
             <tbody>
@@ -75,13 +85,13 @@
             </tbody>
         </table>
         {% else %}
-        <p>There is no shortage of products in the warehouse.</p>
+        <p>No low stock products in the warehouse.</p>
         {% endif %}
     </div>
 
     <!-- So'nggi buyurtmalar -->
     <div class="card">
-        <h3>Last orders</h3>
+        <h3>Recent Orders</h3>
         <table class="data-table">
             <thead>
                 <tr>
@@ -89,16 +99,16 @@
                     <th>Customer</th>
                     <th>Date</th>
                     <th>Status</th>
-                    <th>Total price</th>
+                    <th>Total Price</th>
                 </tr>
             </thead>
             <tbody>
                 {% for order in recent_orders %}
                 <tr>
                     <td>{{ order.id }}</td>
-                    <td>{{ order.customer }}</td>
+                    <td>{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
                     <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
-                    <td>{{ order.status }}</td>
+                    <td>{{ order.get_status_display }}</td>
                     <td>${{ order.total_amount|floatformat:2 }}</td>
                 </tr>
                 {% endfor %}
@@ -108,13 +118,13 @@
 
     <!-- So'nggi tranzaksiyalar -->
     <div class="card">
-        <h3>Last transaction</h3>
+        <h3>Recent Transactions</h3>
         <table class="data-table">
             <thead>
                 <tr>
                     <th>Order ID</th>
-                    <th>Quantity</th>
-                    <th>Payment menthod</th>
+                    <th>Amount</th>
+                    <th>Payment Method</th>
                     <th>Date</th>
                 </tr>
             </thead>
@@ -123,7 +133,7 @@
                 <tr>
                     <td>{{ transaction.order.id }}</td>
                     <td>${{ transaction.amount|floatformat:2 }}</td>
-                    <td>{{ transaction.payment_method }}</td>
+                    <td>{{ transaction.get_payment_method_display }}</td>
                     <td>{{ transaction.transaction_date|date:"Y-m-d H:i" }}</td>
                 </tr>
                 {% endfor %}
@@ -131,18 +141,18 @@
         </table>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Buyurtma holatlari grafikasi
     const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
     const statusData = {{ status_data| safe }};
-
     new Chart(orderStatusCtx, {
         type: 'bar',
         data: {
             labels: statusData.labels,
             datasets: [{
-                label: 'Order status',
+                label: 'Order Status',
                 data: statusData.data,
                 backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
                 borderColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
@@ -162,11 +172,10 @@
     // Mahsulot kategoriyalari grafikasi
     const categoryCounts = {{ product_categories_json| safe }};
     const productCategoryCtx = document.getElementById('productCategoryChart').getContext('2d');
-
     const categoryData = {
         labels: ['T-Shirts', 'Pants', 'Jackets', 'Shoes', 'Accessories'],
         datasets: [{
-            label: 'Product category',
+            label: 'Product Category',
             data: [
                 categoryCounts['T-Shirts'] || 0,
                 categoryCounts['Pants'] || 0,
@@ -178,7 +187,6 @@
             borderWidth: 1
         }]
     };
-
     new Chart(productCategoryCtx, {
         type: 'doughnut',
         data: categoryData,
@@ -188,8 +196,55 @@
             }
         }
     });
+
+    // Yillik sotuvlar grafikasi
+    const yearlySalesCtx = document.getElementById('yearlySalesChart').getContext('2d');
+    const yearlySalesData = {{ yearly_sales_data| safe }};
+    new Chart(yearlySalesCtx, {
+        type: 'bar',
+        data: {
+            labels: yearlySalesData.labels,
+            datasets: [{
+                label: 'Yearly Sales ($)',
+                data: yearlySalesData.data,
+                backgroundColor: '#28a745',
+                borderColor: '#218838',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    // Oylik sotuvlar grafikasi
+    const monthlySalesCtx = document.getElementById('monthlySalesChart').getContext('2d');
+    const monthlySalesData = {{ monthly_sales_data| safe }};
+    new Chart(monthlySalesCtx, {
+        type: 'bar',
+        data: {
+            labels: monthlySalesData.labels,
+            datasets: [{
+                label: 'Monthly Sales ($)',
+                data: monthlySalesData.data,
+                backgroundColor: '#ffc107',
+                borderColor: '#e0a800',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
 </script>
-
-
-
 {% endblock %}

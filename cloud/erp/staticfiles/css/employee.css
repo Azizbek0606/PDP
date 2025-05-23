@@ -1,0 +1,41 @@
+@import url('./main.css');
+.employee-row {
+    cursor: pointer;
+}
+
+/* Orders List (Modal) */
+.orders-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.order-item span {
+    flex: 1;
+    text-align: left;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .order-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-item span {
+        font-size: 0.8rem;
+    }
+}

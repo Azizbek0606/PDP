@@ -1,0 +1,227 @@
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block content %}
+<div class="content-header">
+    <h1>Employees Dashboard</h1>
+    <div class="breadcrumb">
+        <span>Home</span> / <span>Employees</span> / <span>Dashboard</span>
+    </div>
+</div>
+
+<div class="content-body">
+    <!-- Employee Stats -->
+    <div class="stats-grid">
+        <div class="card stats-card">
+            <h4>Total Employees</h4>
+            <p class="stats-value">{{ total_employees }}</p>
+            <p class="stats-subtext">All time</p>
+            <p class="stats-date">{{ current_date|date:"Y-m-d" }}</p>
+        </div>
+        <div class="card stats-card">
+            <h4>Active Employees</h4>
+            <p class="stats-value">{{ active_employees }}</p>
+            <p class="stats-subtext">Currently active</p>
+        </div>
+        <div class="card stats-card">
+            <h4>Average Salary</h4>
+            <p class="stats-value">${{ average_salary|floatformat:2 }}</p>
+            <p class="stats-subtext">Per employee</p>
+        </div>
+    </div>
+
+    <!-- Top Salaries Chart -->
+    <div class="charts-grid">
+        <div>
+            <h3>Top 7 Employees by Salary</h3>
+            <div class="chart-container">
+                <h4>Salary Distribution</h4>
+                <canvas id="salaryChart"></canvas>
+            </div>
+        </div>
+        <div>
+            <h3>Employee Department Distribution</h3>
+            <div class="chart-container">
+                <h4>Employees per Department</h4>
+                <canvas id="departmentChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <h3>Employees Salary</h3>
+        <ul class="data-list">
+            {% for employee in top_salary_employees %}
+            <li class="data-item">
+                <span>{{ employee.first_name }} {{ employee.last_name }}</span>
+                <span>{{ employee.department }}</span>
+                <span>${{ employee.salary|floatformat:2 }}</span>
+            </li>
+            {% empty %}
+            <p>No salary data available.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>Department Distribution</h3>
+        <ul class="data-list">
+            {% for dept in department_distribution %}
+            <li class="data-item">
+                <span>{{ dept.department }}</span>
+                <span>{{ dept.employee_count }} employee{{ dept.employee_count|pluralize }}</span>
+            </li>
+            {% empty %}
+            <p>No department data available.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Top Employees by Orders -->
+    <div class="card">
+        <h3>Top 5 Employees by Orders</h3>
+        <ul class="data-list">
+            {% for employee in top_employees %}
+            <li class="data-item employee-row" onclick="openModal('employeeModal-{{ employee.id }}')">
+                <span>{{ employee.first_name }} {{ employee.last_name }}</span>
+                <span>{{ employee.department }}</span>
+                <span>{{ employee.order_count }} order{{ employee.order_count|pluralize }}</span>
+            </li>
+            <!-- Modal for each employee -->
+            <div id="employeeModal-{{ employee.id }}" class="modal">
+                <div class="modal-content">
+                    <span class="modal-close" onclick="closeModal('employeeModal-{{ employee.id }}')">×</span>
+                    <h3>{{ employee.first_name }} {{ employee.last_name }}</h3>
+                    <div class="employee-details">
+                        <p><strong>Email:</strong> {{ employee.email }}</p>
+                        <p><strong>Phone:</strong> {{ employee.phone }}</p>
+                        <p><strong>Position:</strong> {{ employee.position }}</p>
+                        <p><strong>Department:</strong> {{ employee.department }}</p>
+                        <p><strong>Hire Date:</strong> {{ employee.hire_date|date:"Y-m-d" }}</p>
+                        <p><strong>Salary:</strong> ${{ employee.salary|floatformat:2 }}</p>
+                        <p><strong>Status:</strong> {{ employee.is_active|yesno:"Active,Inactive" }}</p>
+                        <p><strong>Total Orders:</strong> {{ employee.order_count }}</p>
+                        <h4>Recent Orders</h4>
+                        {% if employee.orders.all %}
+                        <ul class="orders-list">
+                            {% for order in employee.orders.all|slice:":5" %}
+                            <li class="order-item">
+                                <span>#{{ order.id }}</span>
+                                <span>{{ order.order_date|date:"Y-m-d H:i" }}</span>
+                                <span class="status-badge status-{{ order.status|lower }}">{{ order.get_status_display
+                                    }}</span>
+                                <span>${{ order.total_amount|floatformat:2 }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p>No orders assigned.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No employees found.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Recent Employees -->
+    <div class="card">
+        <h3>Recent Employees</h3>
+        <ul class="data-list">
+            {% for employee in recent_employees %}
+            <li class="data-item employee-row" onclick="openModal('employeeModal-{{ employee.id }}')">
+                <span>{{ employee.first_name }} {{ employee.last_name }}</span>
+                <span>{{ employee.email }}</span>
+                <span>{{ employee.hire_date|date:"Y-m-d" }}</span>
+            </li>
+            <!-- Modal for each employee -->
+            <div id="employeeModal-{{ employee.id }}" class="modal">
+                <div class="modal-content">
+                    <span class="modal-close" onclick="closeModal('employeeModal-{{ employee.id }}')">×</span>
+                    <h3>{{ employee.first_name }} {{ employee.last_name }}</h3>
+                    <div class="employee-details">
+                        <p><strong>Email:</strong> {{ employee.email }}</p>
+                        <p><strong>Phone:</strong> {{ employee.phone }}</p>
+                        <p><strong>Position:</strong> {{ employee.position }}</p>
+                        <p><strong>Department:</strong> {{ employee.department }}</p>
+                        <p><strong>Hire Date:</strong> {{ employee.hire_date|date:"Y-m-d" }}</p>
+                        <p><strong>Salary:</strong> ${{ employee.salary|floatformat:2 }}</p>
+                        <p><strong>Status:</strong> {{ employee.is_active|yesno:"Active,Inactive" }}</p>
+                        <p><strong>Total Orders:</strong> {{ employee.order_count|default:0 }}</p>
+                        <h4>Recent Orders</h4>
+                        {% if employee.orders.all %}
+                        <ul class="orders-list">
+                            {% for order in employee.orders.all|slice:":5" %}
+                            <li class="order-item">
+                                <span>#{{ order.id }}</span>
+                                <span>{{ order.order_date|date:"Y-m-d H:i" }}</span>
+                                <span class="status-badge status-{{ order.status|lower }}">{{ order.get_status_display
+                                    }}</span>
+                                <span>${{ order.total_amount|floatformat:2 }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p>No orders assigned.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No recent employees found.</p>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Top Salaries Chart
+    const salaryChart = new Chart(document.getElementById('salaryChart'), {
+        type: 'bar',
+        data: {
+            labels: [{% for employee in top_salary_employees %}'{{ employee.first_name }} {{ employee.last_name }}',{% endfor %}],
+    datasets: [{
+        label: 'Salary ($)',
+        data: [{% for employee in top_salary_employees %}{{ employee.salary }}, {% endfor %}],
+        backgroundColor: '#28a745',
+            borderColor: '#218838',
+                borderWidth: 1
+            }]
+        },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        },
+        plugins: {
+            legend: { display: false }
+        }
+    }
+    });
+
+    // Department Distribution Chart
+    const departmentChart = new Chart(document.getElementById('departmentChart'), {
+        type: 'bar',
+        data: {
+            labels: [{% for dept in department_distribution %}'{{ dept.department }}',{% endfor %}],
+    datasets: [{
+        label: 'Employees',
+        data: [{% for dept in department_distribution %}{{ dept.employee_count }}, {% endfor %}],
+        backgroundColor: '#007bff',
+            borderColor: '#0056b3',
+                borderWidth: 1
+            }]
+        },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        },
+        plugins: {
+            legend: { display: false }
+        }
+    }
+    });
+</script>
+{% endblock %}

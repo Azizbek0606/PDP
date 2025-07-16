@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Zip Yuklash</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: #f7f7f7;
+        }
+
+        form {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>📦 .zip fayl yuklash</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="zipfile" accept=".zip" required><br><br>
+        <button type="submit">Yuklash</button>
+    </form>
+</body>
+
+</html>
